@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/home'
 import Login from './views/login'
+import Main from './views/home/main'
+import Register from './views/register'
 
 Vue.use(Router)
 
@@ -12,13 +14,31 @@ export default new Router({
       component: Login
     },
     {
+      path: '/register',
+      component: Register
+    },
+    {
       path: '/',
       redirect: '/home'
     },
     {
       path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: '', // 默认的二级路由  的地址 path为空串
+          component: Main
+        },
+        {
+          // path: '/home/comment',
+          path: 'comment',
+          component: () => import('./views/comment')
+        }, {
+          path: 'material',
+          component: () => import('./views/material')
+        }
+      ]
     }
     // {
     //   path: '/about',

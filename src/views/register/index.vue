@@ -2,7 +2,7 @@
   <div class='login'>
     <el-card class='login-card'>
       <div class='logo'>
-        <img src="../../assets/logo_index.png" alt="">
+        <img src="../../assets/logo_index.png" alt="">注册
       </div>
       <!-- 表单组件  el-form表单容器-->
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" style='margin-top:20px'>
@@ -76,19 +76,14 @@ export default {
       this.$refs.loginForm.validate(isOK => {
         if (isOK) {
           this.$axios({
-            url: '/authorizations',
+            url: '/register',
             method: 'post',
             data: this.loginForm
           }).then(res => {
-            // console.log(res)
+            console.log(res)
             window.localStorage.setItem('user-token', res.data.token)
             this.$router.push('/')
-          })/* .catch(() => {
-            this.$message({
-              message: '手机号或者验证码错误',
-              type: 'warning'
-            })
-          }) */
+          })
         }
       })
     }
