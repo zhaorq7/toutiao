@@ -8,7 +8,7 @@ axios.defaults.baseURL = 'http://localhost:3000' // 赋值基础地址
 
 axios.defaults.transformResponse = [function (data) {
 // data 是响应回来的字符串
-  return jsonBigInt.parse(data)
+  return data ? jsonBigInt.parse(data) : {}
 }]
 
 // 请求拦截器
@@ -18,7 +18,8 @@ axios.interceptors.request.use(function (config) {
   const token = window.localStorage.getItem('user-token')
   config.headers.Authorization = `Bearer ${token}` // 统一注入token   授权
   return config
-}, function () {})
+}, function () {
+})
 
 // 响应拦截器
 axios.interceptors.response.use(function (response) {
@@ -45,11 +46,13 @@ axios.interceptors.response.use(function (response) {
       router.push('/login')
       break
     default:
-      message = '未知错误'
+      // message = '未知错误'
+      message = error.response.data.message
       break
   }
   Message({ type: 'warning', message })
-  return new Promise(function () {}) // 直接返回一个promise 表示错误已经被处理掉 相当于强行截止错误
+  return new Promise(function () {
+  }) // 直接返回一个promise 表示错误已经被处理掉 相当于强行截止错误
 })
 
 // export default {
